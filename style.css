@@ -1,0 +1,68 @@
+  body {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+  }
+  h1 {
+    text-align: center;
+    color: #2c7be5;
+    margin-bottom: 40px;
+  }
+  h2 {
+    color: #2c7be5;
+    margin-top: 40px;
+    border-bottom: 2px solid #2c7be5;
+    padding-bottom: 6px;
+  }
+  h3 {
+    color: #4b4b4b;
+    margin-top: 20px;
+  }
+  p, ul, ol {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  ul, ol {
+    margin-left: 20px;
+  }
+    button.copy-btn {
+    background: #007acc;
+    border: none;
+    color: white;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: -1.7rem;
+  }
+  button.copy-btn:hover {
+    background: #005fa3;
+  }
+  pre {
+    background-color: #272c36;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 40px 0;
+  }
+  code {
+    background-color: #eaeaea;
+    color: black;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 95%;
+  }
+  hr {
+    border: none;
+    border-top: 2px dashed #ccc;
+    margin: 40px 0;
+  }

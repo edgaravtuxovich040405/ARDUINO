@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Раздел 1. Подключение MPU6050 и драйвера моторов</title>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./script.js"></script>
+</head>
+<body>
+
+<h1>📘 Интерактивная шпаргалка Arduino с нуля</h1>
+
+<h2>Что такое Arduino?</h2>
+<div class="content">
+  <p><strong>Arduino</strong> — это открытая платформа для прототипирования на базе микроконтроллеров. Позволяет легко создавать электронные устройства и управлять ими через программирование.</p>
+  <p>Целевая аудитория — студенты, инженеры, хоббисты и новички в электронике.</p>
+</div>
+
+<h2>Из чего состоит Arduino-проект?</h2>
+<div class="content">
+  <table>
+    <thead>
+      <tr><th>Компонент</th><th>Назначение</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Плата Arduino</td><td>Микроконтроллер и порты ввода/вывода</td></tr>
+      <tr><td>Arduino IDE</td><td>Среда для написания и загрузки программ</td></tr>
+      <tr><td>Скетч (код)</td><td>Программа на Arduino C/C++</td></tr>
+      <tr><td>Электронные компоненты</td><td>Светодиоды, сенсоры, моторы и др.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Популярные платы Arduino</h2>
+<div class="content">
+  <table>
+    <thead>
+      <tr><th>Плата</th><th>Особенности</th><th>Для кого</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Uno</td><td>14 цифровых и 6 аналоговых пинов</td><td>Начинающих</td></tr>
+      <tr><td>Nano</td><td>Компактная, для встроенных проектов</td><td>Компактных решений</td></tr>
+      <tr><td>Mega</td><td>Много пинов, больше памяти</td><td>Сложных проектов</td></tr>
+      <tr><td>Leonardo</td><td>Поддержка USB HID</td><td>Управления мышью и клавиатурой</td></tr>
+      <tr><td>ESP8266</td><td>Wi-Fi</td><td>IoT</td></tr>
+      <tr><td>ESP32</td><td>Wi-Fi + Bluetooth</td><td>Продвинутые IoT</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Установка Arduino IDE</h2>
+<div class="content">
+  <ol>
+    <li>Перейдите на <a href="https://www.arduino.cc/en/software" target="_blank" rel="noopener noreferrer">официальный сайт Arduino</a></li>
+    <li>Скачайте версию под вашу ОС</li>
+    <li>Установите и запустите IDE</li>
+    <li>Подключите плату к ПК через USB</li>
+    <li>В меню <code>Инструменты → Плата</code> выберите вашу модель</li>
+    <li>В меню <code>Инструменты → Порт</code> выберите COM-порт Arduino</li>
+  </ol>
+</div>
+
+<h2>Первое подключение</h2>
+<div class="content">
+  <p>Подключите плату к компьютеру через USB — загорится индикатор питания, и встроенный светодиод начнёт мигать при загрузке.</p>
+</div>
+
+<h2>Первая программа — мигание светодиодом</h2>
+<div class="content">
+<button class="copy-btn" data-target="code1">Копировать код</button>
+  <pre><code id="code1">
+void setup() {
+  pinMode(13, OUTPUT); // Настройка пина 13 как выход
+}
+
+void loop() {
+  digitalWrite(13, HIGH); // Включаем светодиод
+  delay(1000);            // Ждем 1 секунду
+  digitalWrite(13, LOW);  // Выключаем светодиод
+  delay(1000);            // Ждем 1 секунду
+}</code></pre>
+  <p>Эта программа заставит встроенный светодиод мигать с интервалом 1 секунда.</p>
+</div>
+
+<h2>Язык программирования Arduino</h2>
+<div class="content">
+  <p>Arduino основан на C/C++ с упрощениями. Основные функции:</p>
+  <ul>
+    <li><code>setup()</code> — инициализация, выполняется один раз при старте</li>
+    <li><code>loop()</code> — главный цикл программы</li>
+    <li><code>pinMode()</code>, <code>digitalWrite()</code>, <code>digitalRead()</code> — работа с пинами</li>
+  </ul>
+</div>
+
+<h2>Перспективы использования Arduino</h2>
+<div class="content">
+  <table>
+    <thead>
+      <tr><th>Область</th><th>Примеры проектов</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Робототехника</td><td>Роботы, манипуляторы</td></tr>
+      <tr><td>Умный дом</td><td>Автоматизация освещения, климата</td></tr>
+      <tr><td>Измерительные приборы</td><td>Метеостанции, счетчики</td></tr>
+      <tr><td>Образование</td><td>Учебные стенды, лабораторные</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h1>2. Основы программирования Arduino</h1>
+
+<h2>🔹 Структура скетча Arduino</h2>
+<div class="content">
+  <p>Каждая программа на Arduino состоит из двух обязательных функций:</p>
+  <button class="copy-btn" data-target="code2">Копировать код</button>
+  <pre><code id="code2">
+void setup() {
+  // Здесь пишем код, который выполняется один раз при старте
+}
+
+void loop() {
+  // Здесь пишем код, который выполняется бесконечно
+}</code></pre>
+</div>
+
+<hr />
+
+<h2>🔹 Типы данных</h2>
+<div class="content">
+  <table>
+    <thead>
+      <tr><th>Тип</th><th>Размер</th><th>Пример</th><th>Комментарий</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>int</code></td><td>2 байта</td><td><code>int x = 5;</code></td><td>Целое число от -32 768 до 32 767</td></tr>
+      <tr><td><code>long</code></td><td>4 байта</td><td><code>long l = 100000;</code></td><td>Большие целые</td></tr>
+      <tr><td><code>float</code></td><td>4 байта</td><td><code>float f = 3.14;</code></td><td>Числа с плавающей точкой</td></tr>
+      <tr><td><code>bool</code></td><td>1 байт</td><td><code>bool b = true;</code></td><td>Логическое значение (true/false)</td></tr>
+      <tr><td><code>char</code></td><td>1 байт</td><td><code>char c = 'A';</code></td><td>Один символ</td></tr>
+      <tr><td><code>String</code></td><td>—</td><td><code>String s = "Hi";</code></td><td>Строка (объект)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr />
+
+<h2>🔹 Операторы и выражения</h2>
+<div class="content">
+  <table>
+    <thead>
+      <tr><th>Оператор</th><th>Назначение</th><th>Пример</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>+, -, *, /</code></td><td>Арифметика</td><td><code>a = b + c;</code></td></tr>
+      <tr><td><code>==, !=, <, ></code></td><td>Сравнение</td><td><code>if (x > 5)</code></td></tr>
+      <tr><td><code>&&</code></td><td>Логическое "И"</td><td><code>if (a &amp;&amp; b)</code></td></tr>
+      <tr><td><code>||</code></td><td>Логическое "ИЛИ"</td><td><code>if (a || b)</code></td></tr>
+      <tr><td><code>=, +=, -=</code></td><td>Присваивание</td><td><code>x += 2;</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<hr />
+
+<h2>🔹 Управляющие конструкции</h2>
+<div class="content">
+  <h3>✅ Условие <code>if</code></h3>
+  <button class="copy-btn" data-target="code3">Копировать код</button>
+  <pre><code id="code3">
+    if (x > 10) {
+  // Выполнится, если x &gt; 10
+} else {
+  // Иначе
+}</code></pre>
+
+  <h3>🔁 Цикл <code>for</code></h3>
+  <button class="copy-btn" data-target="code4">Копировать код</button>
+  <pre><code id="code4">
+for (int i = 0; i &lt; 10; i++) {
+  // Повторить 10 раз
+}</code></pre>
+
+  <h3>🔁 Цикл <code>while</code></h3>
+  <button class="copy-btn" data-target="code5">Копировать код</button>
+  <pre><code id="code5">
+while (digitalRead(2) == HIGH) {
+  // Пока кнопка нажата
+}</code></pre>
+</div>
+
+<hr />
+
+<h2>🔹 Функции</h2>
+<div class="content">
+  <p>Функции позволяют структурировать код.</p>
+  <button class="copy-btn" data-target="code6">Копировать код</button>
+  <pre><code id="code6">
+void blinkLED(int pin, int delayTime) {
+  digitalWrite(pin, HIGH);
+  delay(delayTime);
+  digitalWrite(pin, LOW);
+  delay(delayTime);
+}
+
+void loop() {
+  blinkLED(13, 500);
+}</code></pre>
+</div>
+
+<hr />
+
+<h2>🔹 Комментарии</h2>
+<div class="content">
+  <p>Используйте комментарии для пояснения кода:</p>
+  <button class="copy-btn" data-target="code7">Копировать код</button>
+  <pre><code id="code7">
+// Однострочный комментарий
+
+/*  
+  Многострочный
+  комментарий
+*/</code></pre>
+</div>
+
+<hr />
+
+<h2>🔹 Работа с переменными</h2>
+<div class="content">
+  <button class="copy-btn" data-target="code8">Копировать код</button>
+  <pre><code id="code8">
+int led = 13;
+int count = 0;
+
+void setup() {
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  count++;
+  digitalWrite(led, HIGH);
+  delay(500);
+  digitalWrite(led, LOW);
+  delay(500);
+}</code></pre>
+</div>
+
+<hr />
+
+<h2>📌 Рекомендации</h2>
+<div class="content">
+  <ul>
+    <li>Имена переменных должны быть понятны (например, <code>buttonState</code>, <code>ledPin</code>)</li>
+    <li>Используй <code>const</code> или <code>#define</code> для значений, которые не изменяются</li>
+    <li>Избегай слишком длинных функций</li>
+  </ul>
+</div>
+
+<h2>3. Работа с пинами Arduino</h2>
+<div class="content">
+  <h3>🔌 Цифровые пины (Digital)</h3>
+  <p>Arduino имеет цифровые пины (обычно D0–D13 на Uno), которые могут быть настроены как <strong>вход</strong> или <strong>выход</strong>.</p>
+  <ul>
+    <li><code>pinMode(pin, OUTPUT);</code> — установка пина как выход</li>
+    <li><code>pinMode(pin, INPUT);</code> — установка пина как вход</li>
+    <li><code>pinMode(pin, INPUT_PULLUP);</code> — вход с подтягивающим резистором</li>
+    <li><code>digitalWrite(pin, HIGH);</code> — подать 5V</li>
+    <li><code>digitalWrite(pin, LOW);</code> — подать 0V</li>
+    <li><code>digitalRead(pin);</code> — считывает значение: HIGH или LOW</li>
+  </ul>
+
+  <h3>📈 Аналоговые пины (Analog)</h3>
+  <p>Пины A0–A5 используются для чтения аналоговых сигналов от 0 до 5 В.</p>
+  <ul>
+    <li><code>analogRead(pin);</code> — возвращает значение от 0 до 1023</li>
+  </ul>
+
+  <h3>⚡ ШИМ (PWM) — аналоговая запись</h3>
+  <p>Пины с волнистой меткой (~) могут выдавать <em>ШИМ-сигнал</em>:</p>
+  <ul>
+    <li><code>analogWrite(pin, value);</code> — значение от 0 (0%) до 255 (100%)</li>
+  </ul>
+
+  <h3>🛠 Пример: регулировка яркости светодиода</h3>
+  <button class="copy-btn" data-target="code9">Копировать код</button>
+  <pre><code id="code9">
+int led = 9;
+int brightness = 0;
+
+void setup() {
+  pinMode(led, OUTPUT);
+}
+
+void loop() {
+  for (brightness = 0; brightness <= 255; brightness++) {
+    analogWrite(led, brightness);
+    delay(10);
+  }
+}</code></pre>
+</div>
+<h2>4. Датчики и исполнительные устройства</h2>
+<div class="content">
+  <h3>📏 Подключение датчиков</h3>
+  <p>Датчики позволяют считывать информацию из окружающей среды. Примеры:</p>
+  <ul>
+    <li><strong>Фоторезистор</strong>: подключается к аналоговому пину через делитель напряжения</li>
+    <li><strong>HC-SR04 (ультразвук)</strong>: TRIG — выход, ECHO — вход</li>
+    <li><strong>DHT11/DHT22</strong>: цифровой температурно-влажностный датчик</li>
+  </ul>
+
+  <h3>📦 Пример: чтение значения с фоторезистора</h3>
+  <button class="copy-btn" data-target="code10">Копировать код</button>
+  <pre><code id="code10">
+int sensorPin = A0;
+int value = 0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  value = analogRead(sensorPin);
+  Serial.println(value);
+  delay(500);
+}</code></pre>
+
+  <h3>⚙️ Подключение исполнительных устройств</h3>
+  <ul>
+    <li><strong>Светодиоды</strong>: через резистор к пину</li>
+    <li><strong>Сервоприводы</strong>: сигнальный пин подключается к PWM-выходу (например, D9)</li>
+    <li><strong>Моторы</strong>: управляются через драйвер (L298N, TB6612)</li>
+    <li><strong>Реле</strong>: позволяет управлять высоким напряжением</li>
+  </ul>
+
+  <h3>🔧 Пример: управление сервоприводом</h3>
+  <button class="copy-btn" data-target="code11">Копировать код</button>
+  <pre><code id="code11">
+#include &lt;Servo.h&gt;
+Servo myServo;
+
+void setup() {
+  myServo.attach(9); // Пин D9
+}
+
+void loop() {
+  myServo.write(90);  // Повернуть на 90 градусов
+  delay(1000);
+  myServo.write(0);   // Назад на 0
+  delay(1000);
+}</code></pre>
+</div>
+
+<h2>5. Последовательная связь (Serial)</h2>
+<div class="content">
+  <h3>🔌 Что такое Serial</h3>
+  <p>Последовательный порт используется для связи между Arduino и компьютером (или другими устройствами).</p>
+  <ul>
+    <li><code>Serial.begin(9600);</code> — инициализация связи</li>
+    <li><code>Serial.print("Привет");</code> — вывод текста</li>
+    <li><code>Serial.println(42);</code> — вывод с переводом строки</li>
+    <li><code>Serial.read();</code> — считывание одного байта</li>
+    <li><code>Serial.available();</code> — количество доступных байт для чтения</li>
+  </ul>
+
+  <h3>🖨 Пример вывода данных в монитор порта</h3>
+  <button class="copy-btn" data-target="code12">Копировать код</button>
+  <pre><code id="code12">
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int sensorValue = analogRead(A0);
+  Serial.print("Сенсор: ");
+  Serial.println(sensorValue);
+  delay(500);
+}</code></pre>
+
+  <h3>🛠 Пример: считывание с компьютера</h3>
+  <button class="copy-btn" data-target="code13">Копировать код</button>
+  <pre><code id="code13">
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    char received = Serial.read();
+    Serial.print("Получено: ");
+    Serial.println(received);
+  }
+}</code></pre>
+
+  <p>Это удобно для настройки, отладки и передачи данных между Arduino и ПК или другим микроконтроллером.</p>
+</div>
+<h2>6. Управление выходами</h2>
+<h3>6.1 Светодиоды</h3>
+<p>Пример включения и выключения:</p>
+  <button class="copy-btn" data-target="code14">Копировать код</button>
+  <pre><code id="code14">
+const int ledPin = 13;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(ledPin, HIGH);
+  delay(1000);
+  digitalWrite(ledPin, LOW);
+  delay(1000);
+}
+</code></pre>
+
+<h3>6.2 RGB-светодиоды</h3>
+<p>Пример управления цветом:</p>
+  <button class="copy-btn" data-target="code15">Копировать код</button>
+  <pre><code id="code15">
+const int redPin = 9;
+const int greenPin = 10;
+const int bluePin = 11;
+
+void setup() {
+  pinMode(redPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
+  pinMode(bluePin, OUTPUT);
+}
+
+void setColor(int red, int green, int blue) {
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue);
+}
+
+void loop() {
+  setColor(255, 0, 0);
+  delay(1000);
+  setColor(0, 255, 0);
+  delay(1000);
+  setColor(0, 0, 255);
+  delay(1000);
+}
+</code></pre>
+
+<h3>6.3 Реле</h3>
+  <button class="copy-btn" data-target="code16">Копировать код</button>
+  <pre><code id="code16">
+const int relayPin = 8;
+
+void setup() {
+  pinMode(relayPin, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(relayPin, HIGH);
+  delay(2000);
+  digitalWrite(relayPin, LOW);
+  delay(2000);
+}
+</code></pre>
+
+<h3>6.4 Серводвигатели</h3>
+  <button class="copy-btn" data-target="code17">Копировать код</button>
+  <pre><code id="code17">
+#include &lt;Servo.h&gt;
+
+Servo myservo;
+const int servoPin = 9;
+
+void setup() {
+  myservo.attach(servoPin);
+}
+
+void loop() {
+  for (int pos = 0; pos &lt;= 180; pos += 1) {
+    myservo.write(pos);
+    delay(15);
+  }
+  for (int pos = 180; pos &gt;= 0; pos -= 1) {
+    myservo.write(pos);
+    delay(15);
+  }
+}
+</code></pre>
+
+<h3>6.5 Управление DC-мотором</h3>
+  <button class="copy-btn" data-target="code18">Копировать код</button>
+  <pre><code id="code18">
+const int motorPin = 9;
+
+void setup() {
+  pinMode(motorPin, OUTPUT);
+}
+
+void loop() {
+  analogWrite(motorPin, 255);
+  delay(2000);
+  analogWrite(motorPin, 0);
+  delay(2000);
+}
+</code></pre>
+
+<hr>
+
+<h2>7. Работа с дисплеями</h2>
+<h3>7.1 LCD 16x2</h3>
+  <button class="copy-btn" data-target="code19">Копировать код</button>
+  <pre><code id="code19">
+#include &lt;LiquidCrystal.h&gt;
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  lcd.begin(16, 2);
+  lcd.print("Hello, Arduino!");
+}
+
+void loop() {
+  lcd.setCursor(0, 1);
+  lcd.print(millis() / 1000);
+}
+</code></pre>
+
+<h3>7.2 OLED SSD1306</h3>
+  <button class="copy-btn" data-target="code20">Копировать код</button>
+  <pre><code id="code20">
+#include &lt;Wire.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+
+Adafruit_SSD1306 display(128, 64, &Wire, -1);
+
+void setup() {
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0,0);
+  display.println("Hello, OLED!");
+  display.display();
+}
+
+void loop() {
+  display.clearDisplay();
+  display.setCursor(0, 10);
+  display.print("Время: ");
+  display.print(millis() / 1000);
+  display.println(" с");
+  display.display();
+  delay(1000);
+}
+</code></pre>
+
+<hr>
+
+<h2>8. Беспроводная связь: Bluetooth и WiFi</h2>
+<h3>8.1 Bluetooth HC-05</h3>
+  <button class="copy-btn" data-target="code21">Копировать код</button>
+  <pre><code id="code21">
+#include &lt;SoftwareSerial.h&gt;
+
+SoftwareSerial BTserial(10, 11);
+
+void setup() {
+  Serial.begin(9600);
+  BTserial.begin(9600);
+}
+
+void loop() {
+  if (BTserial.available()) {
+    char c = BTserial.read();
+    Serial.println(c);
+  }
+  if (Serial.available()) {
+    char c = Serial.read();
+    BTserial.print(c);
+  }
+}
+</code></pre>
+
+<h3>8.2 WiFi (ESP8266)</h3>
+  <button class="copy-btn" data-target="code22">Копировать код</button>
+  <pre><code id="code22">
+#include &lt;ESP8266WiFi.h&gt;
+
+const char* ssid = \"имя_сети\";
+const char* password = \"пароль\";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
+
+  Serial.println(\"WiFi подключен\");
+}
+</code></pre>
+
+<hr>
+
+<h2>9. Прерывания и таймеры</h2>
+  <button class="copy-btn" data-target="code23">Копировать код</button>
+  <pre><code id="code23">
+volatile bool flag = false;
+
+void setup() {
+  pinMode(2, INPUT);
+  attachInterrupt(digitalPinToInterrupt(2), ISR_function, RISING);
+}
+
+void loop() {
+  if (flag) {
+    // код при прерывании
+    flag = false;
+  }
+}
+
+void ISR_function() {
+  flag = true;
+}
+</code></pre>
+
+<hr>
+
+<h2>10. Протоколы I2C и SPI</h2>
+<h3>I2C Сканирование устройств</h3>
+  <button class="copy-btn" data-target="code24">Копировать код</button>
+  <pre><code id="code24">
+#include &lt;Wire.h&gt;
+
+void setup() {
+  Wire.begin();
+  Serial.begin(9600);
+}
+
+void loop() {
+  for (byte address = 1; address &lt; 127; address++) {
+    Wire.beginTransmission(address);
+    if (Wire.endTransmission() == 0) {
+      Serial.print(\"Найдено устройство: 0x\");
+      Serial.println(address, HEX);
+    }
+  }
+  delay(5000);
+}
+</code></pre>
+
+<h3>SPI Пример передачи данных</h3>
+  <button class="copy-btn" data-target="code25">Копировать код</button>
+  <pre><code id="code25">
+#include &lt;SPI.h&gt;
+
+void setup() {
+  SPI.begin();
+  pinMode(10, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(10, LOW);
+  byte data = SPI.transfer(0x55);
+  digitalWrite(10, HIGH);
+}
+</code></pre>
+
+<hr>
+
+<h2>11. Работа с SD-картой</h2>
+  <button class="copy-btn" data-target="code26">Копировать код</button>
+  <pre><code id="code26">
+#include &lt;SPI.h&gt;
+#include &lt;SD.h&gt;
+
+const int chipSelect = 10;
+
+void setup() {
+  Serial.begin(9600);
+  SD.begin(chipSelect);
+}
+
+void loop() {
+  File file = SD.open(\"data.txt\", FILE_WRITE);
+  if (file) {
+    file.println(\"Пример записи\");
+    file.close();
+  }
+  delay(2000);
+}
+</code></pre>
+
+<hr>
+
+<h2>12. I2C и SPI с датчиками и дисплеями</h2>
+  <button class="copy-btn" data-target="code27">Копировать код</button>
+  <pre><code id="code27">
+#include &lt;Wire.h&gt;
+#include &lt;BH1750.h&gt;
+#include &lt;LiquidCrystal.h&gt;
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+BH1750 lightMeter;
+
+void setup() {
+  Wire.begin();
+  lcd.begin(16, 2);
+  lightMeter.begin();
+}
+
+void loop() {
+  float lux = lightMeter.readLightLevel();
+  lcd.setCursor(0, 1);
+  lcd.print(lux);
+  lcd.print(\" lx\");
+  delay(1000);
+}
+</code></pre>
+
+<hr>
+
+<h2>13. Акселерометры и гироскопы (MPU6050)</h2>
+  <button class="copy-btn" data-target="code28">Копировать код</button>
+  <pre><code id="code28">
+#include &lt;Wire.h&gt;
+#include &lt;MPU6050.h&gt;
+
+MPU6050 mpu;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+  mpu.initialize();
+}
+
+void loop() {
+  int16_t ax, ay, az;
+  mpu.getAcceleration(&ax, &ay, &az);
+  Serial.print(\"AX: \");
+  Serial.println(ax);
+  delay(500);
+}
+</code></pre>
+
+<hr>
+
+<h2>14. Фильтры: комплементарный и Калмана</h2>
+  <button class="copy-btn" data-target="code29">Копировать код</button>
+  <pre><code id="code29">
+float angle = 0;
+float alpha = 0.98;
+float gyroRate, accelAngle, dt;
+
+void loop() {
+  angle = alpha * (angle + gyroRate * dt) + (1 - alpha) * accelAngle;
+}
+</code></pre>
+
+<hr>
+
+<h2>15. Проекты на основе IMU</h2>
+<ul>
+  <li>Балансирующий робот с MPU6050</li>
+  <li>Стабилизатор камеры</li>
+  <li>Фитнес-трекер шагов и наклонов</li>
+</ul>
+  <button class="copy-btn" data-target="code30">Копировать код</button>
+  <pre><code id="code30">
+// Пример: счёт угла наклона с MPU6050
+angle = комплементарныйФильтр(ax, ay, az, gx, dt);
+</code></pre>
+
+<h2>17. Использованные инструменты</h2>
+
+<h3>Аппаратные компоненты:</h3>
+<ul>
+  <li>Платы Arduino Uno / Nano / Mega / ESP8266 / ESP32</li>
+  <li>Светодиоды, кнопки, потенциометры, резисторы</li>
+  <li>Датчики: DHT11, HC-SR04, LDR, MQ-2, BMP280, MPU6050</li>
+  <li>Дисплеи: LCD 16x2, OLED SSD1306</li>
+  <li>Модули: Bluetooth HC-05, WiFi ESP, RFID RC522, реле</li>
+  <li>Моторы: серво, шаговые, DC-моторы</li>
+  <li>Драйверы: L298N, ULN2003, HX711</li>
+  <li>Кабели, макетная плата, адаптеры питания</li>
+</ul>
+
+<h3>Программные библиотеки:</h3>
+<ul>
+  <li><code>Servo.h</code> — управление сервомоторами</li>
+  <li><code>LiquidCrystal.h</code> — для дисплеев LCD</li>
+  <li><code>Adafruit_SSD1306</code> и <code>Adafruit_GFX</code> — для OLED</li>
+  <li><code>DHT.h</code> — для датчиков температуры и влажности</li>
+  <li><code>Wire.h</code> — I2C-соединения</li>
+  <li><code>SPI.h</code> — SPI-соединения</li>
+  <li><code>EEPROM.h</code> — работа с энергонезависимой памятью</li>
+  <li><code>SoftwareSerial.h</code> — альтернативный UART</li>
+  <li><code>HX711.h</code> — работа с тензодатчиком</li>
+  <li><code>MPU6050.h</code> — модуль гироскопа</li>
+</ul>
+
+<h3>Среда разработки:</h3>
+<ul>
+  <li>Arduino IDE (версии 1.x и 2.x)</li>
+  <li>Плагин ESP8266/ESP32 Board Manager</li>
+  <li>Дополнительные библиотеки через Library Manager</li>
+</ul>
+
+</body>
+</html>
